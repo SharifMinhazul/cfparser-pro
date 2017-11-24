@@ -1,20 +1,20 @@
-# cfparser.vim
-A [codeforces](http://codeforces.com) plugin for vim, ported from emacs plugin [gnull/cfparser](https://github.com/gnull/cfparser).
+# 
+A [codeforces](http://codeforces.com) plugin for vim, ported from vim plugin [gabrielsimoes/cfparser.vim](https://github.com/gabrielsimoes/cfparser.vim).
 
 ## Installation
 - Install `curl`
-- Install `cfparser.vim` with your favorite plugin manager. With `vim-plug`:
+- Install `cfparser-pro` with your favorite plugin manager. With `vim-plug`:
 
 ```
-Plug 'gabrielsimoes/cfparser.vim'
+Plug 'sharifMinhazul/cfparser-pro'
 ```
 
 ### Optional setup
 You can setup some variables at your .vimrc:
 - `g:cf_cookies_file` - File in which `curl` will store cookies (default: `'~/.cf_cookies'`)
-- `g:cf_default_language` - Language to be used when it it not recognized from file extension (default: g:cf_pl_gpp - g++). Languages are mapped in `plugin/cfparser.vim`
+- `g:cf_default_language` - Language to be used when it it not recognized from file extension (default: g:cf_pl_gpp - g++). Languages are mapped in `plugin/cfparser-pro`
 - `g:cf_locale` - Language to download problem statement. Either `"ru"` or `"en"` (default: `"en"`)
-- You can also redefine the function `cfparser#CFTestAll()`, that is, the function that is called to test your solution against test files. The default definition is as follows. You can redefine the function by writing your own version of it at your `.vimrc`, *after* loading `cfparser.vim`.
+- You can also redefine the function `cfparser#CFTestAll()`, that is, the function that is called to test your solution against test files. The default definition is as follows. You can redefine the function by writing your own version of it at your `.vimrc`, *after* loading `cfparser-pro`.
 
 ```
 function! cfparser#CFTestAll()
@@ -32,7 +32,7 @@ endfunction
 
 This will compile the file with `g++` and test it against `0.in` and `0.out`, `1.in` and `1.out`, etc...
 
-- You also redefine the function `cfparser#CFRun()`, the function that is called to test your solution in an interactive shell. You can redefine it by writing your own version of it at your `.vimrc`, after loading `cfparser.vim`. The default definition is below:
+- You also redefine the function `cfparser#CFRun()`, the function that is called to test your solution in an interactive shell. You can redefine it by writing your own version of it at your `.vimrc`, after loading `cfparser-pro`. The default definition is below:
 
 ```
 function! cfparser#CFRun()
@@ -58,4 +58,4 @@ This will compile the file with `g++` and run it with the command `RunInteractiv
 Submit, download sample tests and problem statement functions "guess" the contest number, problem index and the programming language by the current file name in one of the following forms:
 - `directory/505/A/myfile.cpp`
 - `directory/505/a.c`
-- `directory/505a.cc`
+- `directory/505a.c`
