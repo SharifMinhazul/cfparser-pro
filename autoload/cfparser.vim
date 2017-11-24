@@ -183,7 +183,6 @@ function! cfparser#CFTestAll() "{{{
     if &mod
         execute 'w'
     endif
-
     if !filereadable(input.'0.in')
         call cfparser#CFDownloadTests()
     endif
