@@ -17,32 +17,46 @@ You can setup some variables at your .vimrc:
 - You can also redefine the function `cfparser#CFTestAll()`, that is, the function that is called to test your solution against test files. The default definition is as follows. You can redefine the function by writing your own version of it at your `.vimrc`, *after* loading `cfparser-pro`.
 
 ```
-function! cfparser#CFTestAll()
-    echo system(printf("g++ %s -o /tmp/cfparser_exec;
+function! cfparser#CFTestAll() "{{{    
+    let match = matchlist(expand('%:p'), s:cf_path_regexp)
+    let input = expand('%:p:h'). '/'. match[2]
+
+    if &mod
+        execute 'w'
+    endif
+    if !filereadable(input.'0.in')
+        call cfparser#CFDownloadTests()
+    endif
+
+    echo system(printf("g++ -Wall -std=c++14 %s -o /tmp/cfparser_exec;
                         \cnt=0;
-                        \for i in `ls %s/*.in | sed 's/\\.in$//'`; do
+                        \for i in `ls %s*.in | sed 's/\\.in$//'`; do
                         \   let cnt++;
                         \   echo \"\nTEST $cnt\";
                         \   /tmp/cfparser_exec < $i.in | diff -y - $i.out;
                         \done;
                         \rm /tmp/cfparser_exec",
-        \ expand('%:p'), expand('%:p:h')))
+        \ expand('%:p'), input))
 endfunction
 ```
 
-This will compile the file with `g++` and test it against `0.in` and `0.out`, `1.in` and `1.out`, etc...
+This will compile the file with `g++` and test it against `a0.in` and `a0.out`, `a1.in` and `a1.out`, etc...
 
 - You also redefine the function `cfparser#CFRun()`, the function that is called to test your solution in an interactive shell. You can redefine it by writing your own version of it at your `.vimrc`, after loading `cfparser-pro`. The default definition is below:
 
 ```
-function! cfparser#CFRun()
-    echo system(printf("g++ %s -o /tmp/cfparser_exec", expand('%s:p')))
-    RunInInteractiveShell /tmp/cfparser_exec
+function! cfparser#CFRun() "{{{
+    if &mod
+        execute 'w'
+    endif
+
+    echo system(printf("g++ -Wall -std=c++14 %s -o /tmp/cfparser_exec", expand('%s:p')))
+        execute '!'. '/tmp/cfparser_exec'
     call system("rm /tmp/cfparser_exec")
 endfunction
 ```
 
-This will compile the file with `g++` and run it with the command `RunInteractiveShell`, which is provided by the following plugin: [christoomey/vim-run-interactive](https://github.com/christoomey/vim-run-interactive).
+This will compile the file with `g++` and run it with the command warnings and `std=c++14`. You should change `std=c++14` if you want other standard.
 
 ## Usage
 - `<leader>cfi` - Log**i**n (calls `CFLogin()`)
