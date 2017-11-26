@@ -170,7 +170,7 @@ function! cfparser#CFLastSubmissions(...) "{{{
     else
         let result = cf_response_json.result
         for sub in result
-            echom printf("%d%s - %s - %s - Last Test: %d - %.3fMB - %dms", sub.problem.contestId, sub.problem.index, sub.problem.name, get(sub, 'verdict', 'UNKNOWN'), sub.passedTestCount, sub.memoryConsumedBytes / 1000000.0, sub.timeConsumedMillis)
+            echom printf("%d%s - %s - %s(%d) - %.3fMB - %dms", sub.problem.contestId, sub.problem.index, sub.problem.name, get(sub, 'verdict', 'UNKNOWN'), sub.passedTestCount, sub.memoryConsumedBytes / 1000000.0, sub.timeConsumedMillis)
         endfor
     endif
 endfunction
@@ -196,6 +196,17 @@ function! cfparser#CFTestAll() "{{{
                         \done;
                         \rm /tmp/cfparser_exec",
         \ expand('%:p'), input))
+endfunction
+
+"}}}
+function! cfparser#CFEditTest() "{{{
+    let match = matchlist(expand('%:p'), s:cf_path_regexp)
+    let problem = match[2]
+    let testCase = input('Test: ')
+    let fullpath = expand('%:p:h').'/'.problem.testCase
+    
+    execute '20vs'.' '.fullpath.'.in'
+    execute '20vs'.' '.fullpath.'.out'
 endfunction
 
 "}}}

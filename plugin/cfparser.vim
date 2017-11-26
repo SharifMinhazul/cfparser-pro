@@ -26,7 +26,7 @@ let g:cf_pl_rust = "49"
 let g:cf_pl_scala = "20"
 let g:cf_pl_js = "34"
 
-let g:cf_pl_by_ext =    {'.cpp': g:cf_pl_gpp11,
+let g:cf_pl_by_ext =    {'.cpp': g:cf_pl_gpp14,
                         \'.cc': g:cf_pl_gpp11,
                         \'.c': g:cf_pl_gcc11,
                         \'.cs': g:cf_pl_monocharp,
@@ -68,6 +68,7 @@ command! -nargs=0 CFDownloadTests call cfparser#CFDownloadTests()
 command! -nargs=0 CFTestAll call cfparser#CFTestAll()
 command! -nargs=0 CFRun call cfparser#CFRun()
 command! -nargs=0 CFSubmit call cfparser#CFSubmit()
+command! -nargs=0 CFEditTest call cfparser#CFEditTest()
 command! -nargs=? CFLastSubmissions call cfparser#CFLastSubmissions(<args>)
 
 "}}}
@@ -81,5 +82,6 @@ nmap <leader>cft :CFTestAll<CR>
 nmap <leader>cfr :CFRun<CR>
 nmap <leader>cfs :CFSubmit<CR>
 nmap <leader>cfl :CFLastSubmissions<CR>
+nmap <leader>cfe :CFEditTest<CR>
 "}}}
 " vim:foldmethod=marker:foldlevel=0
