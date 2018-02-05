@@ -148,7 +148,7 @@ function! cfparser#CFSubmit() "{{{
         let temp_file = expand("~/.cf_temp_file")
         silent call cfparser#CFLog(join(getline(1,'$'), "\n"), temp_file)
     
-        echom "Submitting..."
+        echo "Submitting..."
 
         let cf_response = system(printf("curl --location --silent --cookie-jar %s --cookie %s -F 'csrf_token=%s' -F 'action=submitSolutionFormSubmitted' -F 'submittedProblemIndex=%s' -F 'programTypeId=%s' -F \"source=@%s\" '%s://%s/contest/%s/submit?csrf_token=%s'", g:cf_cookies_file, g:cf_cookies_file, csrf_token, problem, language, temp_file, s:cf_proto, s:cf_host, contest, csrf_token))
         call delete(temp_file)
