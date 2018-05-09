@@ -126,10 +126,6 @@ function! cfparser#CFSubmit() "{{{
         execute 'w'
     endif
 
-    if empty(cfparser#CFLoggedInAs()) 
-        call cfparser#CFLogin()
-    endif
-
     let path = expand('%:p')
     let match = matchlist(path, s:cf_path_regexp)
     
@@ -143,6 +139,12 @@ function! cfparser#CFSubmit() "{{{
         let language = get(g:cf_pl_by_ext, extension, g:cf_default_language)
 
         let cf_response = system(printf("curl --silent --cookie-jar %s --cookie %s '%s://%s/contest/%s/submit'", g:cf_cookies_file, g:cf_cookies_file, s:cf_proto, s:cf_host, contest))
+
+        if empty(cf_response)
+            call cfparser#CFLogin()
+			let cf_response = system(printf("curl --silent --cookie-jar %s --cookie %s '%s://%s/contest/%s/submit'", g:cf_cookies_file, g:cf_cookies_file, s:cf_proto, s:cf_host, contest))
+		endif
+
         let csrf_token = cfparser#CFGetToken(cf_response)
 
         let temp_file = expand("~/.cf_temp_file")
@@ -190,6 +192,7 @@ function! cfparser#CFTestAll() "{{{
     if &mod
         execute 'w'
     endif
+
     if !filereadable(input.'0.in')
         call cfparser#CFDownloadTests()
     endif
@@ -260,3 +263,4 @@ endfunction
 
 "}}}
 " vim:foldmethod=marker:foldlevel=0
+
