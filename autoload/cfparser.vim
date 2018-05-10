@@ -210,8 +210,7 @@ endfunction
 
 "}}}
 function! cfparser#CFEditTest() "{{{
-    let match = matchlist(expand('%:p'), s:cf_path_regexp)
-    let problem = match[2]
+    let problem = expand('%:t:r')
     let testCase = input('Which Test? ')
     let fullpath = expand('%:p:h').'/'.problem.testCase
     
