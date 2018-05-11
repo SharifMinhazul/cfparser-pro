@@ -185,9 +185,8 @@ function! cfparser#CFLastSubmissions(...) "{{{
 endfunction
 
 "}}}
-function! cfparser#CFTestAll() "{{{    
-    let match = matchlist(expand('%:p'), s:cf_path_regexp)
-    let input = expand('%:p:h'). '/'. match[2]
+function! cfparser#CFTestAll() "{{{
+    let input = expand('%:p:h'). '/'. expand('%:t:r')
 
     if &mod
         execute 'w'
